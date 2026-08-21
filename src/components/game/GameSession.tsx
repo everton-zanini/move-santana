@@ -1,31 +1,30 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
 import { useExploration } from "@/hooks/useExploration";
 import { useIsTouchDevice } from "@/hooks/useIsTouchDevice";
 import { useIsPortrait } from "@/hooks/useIsPortrait";
-import type { GameAssets } from "@/hooks/useGameAssets";
-import { RaycastCanvas } from "@/components/game/RaycastCanvas";
+import { PanoramaViewer } from "@/components/game/PanoramaViewer";
 import { GameHUD } from "@/components/game/GameHUD";
+import { GameTutorialScreen } from "@/components/game/GameTutorialScreen";
 import { GameLoadingScreen } from "@/components/game/GameLoadingScreen";
 import { RotateDevicePrompt } from "@/components/game/RotateDevicePrompt";
 import { DoorTransitionFlash } from "@/components/game/DoorTransitionFlash";
-import { GAME } from "@/lib/constants";
-import type { JoystickVector } from "@/types/game";
+import { PANORAMA } from "@/lib/constants";
+import type { GamePhase } from "@/types/game";
 
 /**
  * One play session. Mounted fresh every time the overlay opens and
- * unmounted on close — that's what resets the minimum-loading-duration
- * timer without needing to manually reset any state, since a fresh mount
- * always starts from `minDurationDone = false`.
+ * unmounted on close — that's what makes the tutorial and the loading beat
+ * play again on every open, since a fresh mount always starts at phase
+ * "tutorial" with no explicit reset needed.
  */
-export function GameSession({ assets, onClose }: { assets: GameAssets; onClose: () => void }) {
+export function GameSession({ onClose }: { onClose: () => void }) {
   const { markVisited } = useExploration();
+  const [phase, setPhase] = useState<GamePhase>("tutorial");
   const [pendingAreaId, setPendingAreaId] = useState<string | null>(null);
-  const [minDurationDone, setMinDurationDone] = useState(false);
-  const joystickVectorRef = useRef<JoystickVector>({ x: 0, y: 0 });
 
   const isTouch = useIsTouchDevice();
   const isPortrait = useIsPortrait();
@@ -34,9 +33,12 @@ export function GameSession({ assets, onClose }: { assets: GameAssets; onClose: 
   useEscapeKey(true, onClose);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setMinDurationDone(true), GAME.minLoadingMs);
+    if (phase !== "loading") return;
+    const timeout = setTimeout(() => setPhase("ready"), PANORAMA.minLoadingMs);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [phase]);
+
+  const handleTutorialComplete = useCallback(() => setPhase("loading"), []);
 
   const handleDoorReached = useCallback(
     (areaId: string) => {
@@ -57,20 +59,16 @@ export function GameSession({ assets, onClose }: { assets: GameAssets; onClose: 
     }
   }, [pendingAreaId, onClose]);
 
-  const isReady = assets.isReady && minDurationDone;
+  const isReady = phase === "ready";
   const showRotatePrompt = isReady && isTouch && isPortrait;
 
   return (
     <>
-      <RaycastCanvas
-        active={isReady}
-        joystickVectorRef={joystickVectorRef}
-        assets={assets}
-        onDoorReached={handleDoorReached}
-      />
-      <GameHUD onClose={onClose} joystickVectorRef={joystickVectorRef} />
+      <PanoramaViewer active={isReady} onDoorReached={handleDoorReached} />
+      <GameHUD onClose={onClose} />
       {pendingAreaId && <DoorTransitionFlash onComplete={handleFlashComplete} />}
-      {!isReady && <GameLoadingScreen />}
+      {phase === "tutorial" && <GameTutorialScreen onComplete={handleTutorialComplete} />}
+      {phase === "loading" && <GameLoadingScreen />}
       {showRotatePrompt && <RotateDevicePrompt />}
     </>
   );

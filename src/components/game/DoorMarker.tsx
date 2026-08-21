@@ -4,30 +4,33 @@ import { forwardRef } from "react";
 import { AREA_ICONS } from "@/lib/areaIcons";
 
 /**
- * Icon + label floating above a door in the raycast scene. Position,
- * scale and opacity are driven imperatively every frame by the game
- * engine (direct DOM style writes via `ref`, not React state) — the
- * label text/icon themselves are static per door, so only the parent
- * component re-renders never, only the engine mutates this element.
+ * Icon + plain-text label for one panorama hotspot. Horizontal position and
+ * visibility are driven imperatively every frame by the panorama engine
+ * (direct DOM style writes via `ref`, not React state) since they change on
+ * every drag frame — the click handler and content are static per door, so
+ * only that `left`/`opacity` needs to bypass React.
  */
-export const DoorMarker = forwardRef<HTMLDivElement, { areaId: string; label: string }>(
-  function DoorMarker({ areaId, label }, ref) {
-    const Icon = AREA_ICONS[areaId] ?? AREA_ICONS.move;
+export const DoorMarker = forwardRef<
+  HTMLButtonElement,
+  { areaId: string; label: string; onSelect: () => void; onFocus?: () => void }
+>(function DoorMarker({ areaId, label, onSelect, onFocus }, ref) {
+  const Icon = AREA_ICONS[areaId] ?? AREA_ICONS.move;
 
-    return (
-      <div
-        ref={ref}
-        aria-hidden="true"
-        className="pointer-events-none absolute flex flex-col items-center gap-1 opacity-0"
-        style={{ left: "50%", top: "50%" }}
-      >
-        <span className="flex size-8 items-center justify-center rounded-full bg-move-yellow text-move-black shadow-lg">
-          <Icon className="size-4" aria-hidden="true" />
-        </span>
-        <span className="whitespace-nowrap rounded-full bg-move-black/80 px-2 py-0.5 font-accent text-[10px] font-bold uppercase tracking-wide text-move-white">
-          {label}
-        </span>
-      </div>
-    );
-  },
-);
+  return (
+    <button
+      ref={ref}
+      type="button"
+      onClick={onSelect}
+      onFocus={onFocus}
+      className="absolute top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 opacity-0 outline-none"
+      style={{ left: "50%" }}
+    >
+      <span className="flex size-12 items-center justify-center rounded-full bg-move-yellow text-move-black shadow-lg transition-transform hover:scale-105">
+        <Icon className="size-5" aria-hidden="true" />
+      </span>
+      <span className="whitespace-nowrap rounded-full bg-move-black/80 px-2.5 py-1 font-accent text-xs font-bold uppercase tracking-wide text-move-white">
+        {label}
+      </span>
+    </button>
+  );
+});

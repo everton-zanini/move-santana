@@ -1,7 +1,7 @@
 "use client";
 
 import { m } from "motion/react";
-import { GAME, Z_INDEX } from "@/lib/constants";
+import { PANORAMA, Z_INDEX } from "@/lib/constants";
 
 export function DoorTransitionFlash({ onComplete }: { onComplete: () => void }) {
   return (
@@ -11,7 +11,7 @@ export function DoorTransitionFlash({ onComplete }: { onComplete: () => void }) 
       style={{ zIndex: Z_INDEX.game + 1 }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 1, 1, 0] }}
-      transition={{ duration: GAME.doorFlashMs / 1000, times: [0, 0.25, 0.7, 1] }}
+      transition={{ duration: PANORAMA.doorFlashMs / 1000, times: [0, 0.25, 0.7, 1] }}
       onAnimationComplete={onComplete}
     />
   );

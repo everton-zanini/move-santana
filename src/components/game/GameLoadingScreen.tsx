@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { m } from "motion/react";
-import { GAME } from "@/lib/constants";
+import { PANORAMA } from "@/lib/constants";
 
 const SEGMENT_COUNT = 10;
 
@@ -40,7 +40,7 @@ function PixelProgressBar() {
           animate={{ opacity: 1 }}
           transition={{
             duration: 0.1,
-            delay: (i / SEGMENT_COUNT) * (GAME.minLoadingMs / 1000),
+            delay: (i / SEGMENT_COUNT) * (PANORAMA.minLoadingMs / 1000),
           }}
         />
       ))}

@@ -22,25 +22,11 @@ export const EASTER_EGG = {
   logoTriggerEvent: "movesantana:logo-easter-egg",
 } as const;
 
-export const GAME = {
-  gridSize: 21,
-  center: 10,
-  boateHalf: 2, // the central "MOVE" building (a 5x5 block, the boate/hub landmark)
-  buildingHalf: 1, // each area building (3x3 block)
-  buildingOffset: 7, // distance from the plaza center to each building's center
-  moveSpeed: 3, // grid cells per second
-  turnSensitivity: 0.005, // radians per pixel of drag
-  playerRadius: 0.25,
-  fov: (66 * Math.PI) / 180,
-  renderWidth: 320,
-  renderHeight: 200,
-  maxRenderDistance: 16,
+export const PANORAMA = {
+  fovDeg: 100, // horizontal slice of the 360° scene visible at once
+  turnSensitivity: 0.25, // degrees of yaw per pixel of drag
   maxDelta: 1000 / 30, // clamp rAF delta, same rationale as PARTICLE_FIELD
+  tutorialMs: 2400, // auto-advance floor for GameTutorialScreen (tap anywhere skips sooner)
+  minLoadingMs: 500, // floor for GameLoadingScreen even if it has nothing real to wait for
   doorFlashMs: 450,
-  minLoadingMs: 500, // floor for GameLoadingScreen even if assets load faster
 } as const;
-
-// Short impact phrases painted on building walls, cycled by grid position
-// (see lib/gameTextures.ts / useGameEngine.ts) so walls don't all repeat
-// the exact same line.
-export const WALL_PHRASES = ["NÃO FIQUE PARADO", "SE MOVA", "BORA JUNTO"] as const;

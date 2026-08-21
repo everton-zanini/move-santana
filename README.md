@@ -67,7 +67,7 @@ src/
     social/       cards de redes sociais
     effects/      camada decorativa (partículas, cursor, parallax, grain) — sempre opcional/gated
     gamification/ contador de exploração, toast de conclusão, easter eggs
-    game/         modo exploração em 1ª pessoa (raycasting em canvas) — opcional, ver abaixo
+    game/         modo exploração em panorama (olhar + tocar na porta) — opcional, ver abaixo
   data/           conteúdo editável (ver tabela acima)
   hooks/          lógica reutilizável (countdown, reduced motion, observers...)
   providers/      contexto React (exploração, seção ativa, reduced motion)
@@ -77,9 +77,9 @@ src/
 
 A navegação é **uma única página** — o "mapa" (`HubMap` no desktop, `MobileNavRail`/`BottomTabBar` no mobile) rola suavemente até seções reais (`<section id="...">`), não são rotas separadas. Ver `.claude/skills/landing-page/SKILL.md` para o motivo e o passo a passo de como adicionar uma área nova.
 
-### Modo exploração (jogo em 1ª pessoa)
+### Modo exploração (panorama)
 
-Um botão opcional "MODO EXPLORAÇÃO (BETA)" na seção Move abre um mini-jogo de raycasting (canvas 2D, sem WebGL) onde andar por um corredor e atravessar uma porta navega de verdade até a seção correspondente (e conta como "visitada" no contador de exploração). Controles: WASD/setas + arrastar o mouse para olhar (desktop), joystick virtual + arrastar a tela para olhar (mobile). O botão **some completamente** quando o usuário tem "reduzir movimento" ativado no sistema — é uma camada extra, nunca o único caminho de navegação. Ver `.claude/skills/first-person-game/SKILL.md`.
+Um botão opcional "MODO EXPLORAÇÃO (BETA)" na seção Move abre uma cena 360° estilo "falso VR": arrastar (mouse, touch ou setas do teclado) gira a câmera, e cada área é uma porta clicável — tocar nela navega de verdade até a seção correspondente (e conta como "visitada" no contador de exploração). Toda vez que o modo abre, toca primeiro um tutorial em pixel art ensinando os controles, depois uma tela de carregamento breve, e só então a cena fica interativa. O cenário atual é um placeholder (marca d'água do logo + estrelas) até uma foto 360° real do espaço ser adicionada — ver `src/components/game/PanoramaViewer.tsx`. O botão **some completamente** quando o usuário tem "reduzir movimento" ativado no sistema — é uma camada extra, nunca o único caminho de navegação. Ver `.claude/skills/first-person-game/SKILL.md`.
 
 ## Skills do projeto
 

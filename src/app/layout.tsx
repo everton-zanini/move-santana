@@ -6,6 +6,7 @@ import { ReducedMotionProvider } from "@/providers/ReducedMotionProvider";
 import { ExplorationProvider } from "@/providers/ExplorationProvider";
 import { ActiveSectionProvider } from "@/providers/ActiveSectionProvider";
 import { GameOverlayProvider } from "@/providers/GameOverlayProvider";
+import { MusicPlayerProvider } from "@/providers/MusicPlayerProvider";
 import { SkipToContent } from "@/components/navigation/SkipToContent";
 import { GrainOverlay } from "@/components/effects/GrainOverlay";
 import { CustomCursor } from "@/components/effects/CustomCursor";
@@ -13,6 +14,7 @@ import { BottomTabBar } from "@/components/navigation/BottomTabBar";
 import { UnlockToast } from "@/components/gamification/UnlockToast";
 import { EasterEggHandler } from "@/components/gamification/EasterEggHandler";
 import { GameOverlay } from "@/components/game/GameOverlay";
+import { MusicToggleButton } from "@/components/audio/MusicToggleButton";
 import "./globals.css";
 
 const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton" });
@@ -51,21 +53,27 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="pt-BR"
       className={`${anton.variable} ${chakraPetch.variable} ${inter.variable} h-full`}
     >
-      <body className="min-h-full bg-move-black font-sans text-move-white antialiased">
+      <body
+        className="min-h-full bg-move-black font-sans text-move-white antialiased"
+        suppressHydrationWarning
+      >
         <LazyMotion features={domAnimation} strict>
           <MotionConfig reducedMotion="user">
             <ReducedMotionProvider>
               <ExplorationProvider>
                 <ActiveSectionProvider>
                   <GameOverlayProvider>
-                    <SkipToContent />
-                    <GrainOverlay />
-                    <CustomCursor />
-                    {children}
-                    <BottomTabBar />
-                    <UnlockToast />
-                    <EasterEggHandler />
-                    <GameOverlay />
+                    <MusicPlayerProvider>
+                      <SkipToContent />
+                      <GrainOverlay />
+                      <CustomCursor />
+                      {children}
+                      <BottomTabBar />
+                      <UnlockToast />
+                      <EasterEggHandler />
+                      <GameOverlay />
+                      <MusicToggleButton />
+                    </MusicPlayerProvider>
                   </GameOverlayProvider>
                 </ActiveSectionProvider>
               </ExplorationProvider>
