@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --move-yellow: #fff800;
+  --move-coral: #ff4d5a;
+  --move-black: #080808;
+  --move-ink: #0f0f10;
+  --move-white: #ffffff;
+  --move-gray-300: #b8b8bc;
+  --move-gray-500: #7a7a80;
+  --move-gray-700: #3a3a3f;
+  --move-gray-800: #202023;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-move-yellow: var(--move-yellow);
+  --color-move-coral: var(--move-coral);
+  --color-move-black: var(--move-black);
+  --color-move-ink: var(--move-ink);
+  --color-move-white: var(--move-white);
+  --color-move-gray-300: var(--move-gray-300);
+  --color-move-gray-500: var(--move-gray-500);
+  --color-move-gray-700: var(--move-gray-700);
+  --color-move-gray-800: var(--move-gray-800);
+
+  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
+  --font-accent: var(--font-chakra-petch), "Segoe UI", sans-serif;
+  --font-sans: var(--font-inter), "Segoe UI", sans-serif;
+
+  --animate-marquee: marquee 22s linear infinite;
+  --animate-pulse-glow: pulse-glow 2.4s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+html {
+  color-scheme: dark;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--move-black);
+  color: var(--move-white);
+}
+
+/* Focus visibility must survive on a dark, high-motion UI: always render a
+   bright, high-contrast outline instead of relying on browser defaults. */
+:focus-visible {
+  outline: 3px solid var(--move-yellow);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@layer utilities {
+  .glow-coral {
+    box-shadow: 0 0 40px -8px rgb(255 77 90 / 0.55);
+  }
+
+  .glow-yellow {
+    box-shadow: 0 0 40px -8px rgb(255 248 0 / 0.45);
+  }
+
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0.035) 0px,
+      rgb(255 255 255 / 0.035) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
