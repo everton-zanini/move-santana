@@ -1,42 +1,40 @@
 ---
 name: first-person-game
-description: Conventions for the optional panorama "modo exploração" mini-experience — hotspot generation, drag/keyboard input, tutorial/loading sequencing, and its opt-in/reduced-motion rules.
+description: Conventions for the optional raycasting "modo exploração" mini-game — open-world map generation, engine loop, D-pad/drag/keyboard input, the explicit door-open button, and its opt-in/reduced-motion rules.
 ---
 
-# Modo Exploração (panorama) — Move Santana
+# Modo Exploração (jogo em primeira pessoa) — Move Santana
 
-Camada **opcional** sobre a navegação real (hub/scroll), nunca a substitui. Cena panorâmica falso-360°: arrastar (ou setas) gira a câmera, tocar numa porta navega. CSS + DOM puro — sem canvas, sem WebGL/Three.js, sem dependência nova.
+Camada **opcional** sobre a navegação real (hub/scroll), nunca a substitui. Canvas 2D, raycasting DDA estilo Wolfenstein, mundo aberto (prédios num plaza) — sem WebGL/Three.js, sem dependência nova.
+
+Já existiu uma versão em "modo panorama" (olhar de um ponto fixo, sem andar) e uma com giroscópio — nenhuma das duas ficou boa (o giroscópio "não ficou bom" no feedback do usuário) e ambas foram revertidas. O código de referência de qualquer fase anterior sempre está no histórico do git se precisar consultar; não hesite em usar `git show <commit>:<path>` em vez de reconstruir do zero.
 
 ## Regra de ouro: nunca é o único caminho
 
-O jogo é ativado só por `GameLauncherButton.tsx`, que **some inteiramente** (não desabilita) quando `useReducedMotionPreference()` é `true` — a navegação real já cobre as mesmas seções. Qualquer novo ponto de entrada precisa do mesmo gate. `GameOverlayProvider.open()` também recusa silenciosamente nesse caso (defesa extra).
+O jogo é ativado só por `GameLauncherButton.tsx`, que **some inteiramente** (não desabilita) quando `useReducedMotionPreference()` é `true` — movimento contínuo em primeira pessoa é gatilho clássico de motion sickness, e a navegação real já cobre as mesmas seções. Qualquer novo ponto de entrada pro jogo precisa do mesmo gate. `GameOverlayProvider.open()` também recusa silenciosamente nesse caso (defesa extra).
 
-## Hotspots são gerados, nunca hand-typed
+## Mapa é gerado, nunca hand-typed
 
-`src/data/panoramaHotspots.ts` deriva a lista de portas de `src/data/areas.ts`, distribuindo-as uniformemente em 360° (`360 / areas.length` por área, na ordem do array) — não há cenário panorâmico real ainda (foto 360°), então a distribuição por `position` (top/left/right/bottom) do hub map não se aplica aqui. Se adicionar uma área nova em `areas.ts` (ver skill `landing-page`), ela já ganha uma porta automaticamente, só reespaçada. Não edite `panoramaHotspots.ts` à mão.
+`src/data/gameMap.ts` deriva o grid inteiro de `src/data/areas.ts` (posição `top/left/right/bottom` → prédio + porta na face voltada pro centro do plaza). Se adicionar uma área nova em `areas.ts` (ver skill `landing-page`), o mapa do jogo já a inclui automaticamente **se** ela usar uma das 4 posições cardinais já suportadas — não há um 5º braço. Não edite `grid`/`doors` à mão.
 
-## Fases da sessão (`GameSession.tsx`)
+## Portas abrem por botão, não por contato
 
-Cada abertura do modo passa por 3 fases, sempre na mesma ordem, sempre do zero (o componente **remonta** a cada abertura, então nunca precisa de reset manual):
+Diferente de versões anteriores, **andar até uma porta não abre ela automaticamente**. `useGameEngine.ts` calcula a cada frame, por proximidade (`findFacedDoor`, distância direta jogador↔porta, não pelo raycast — ver comentário no código sobre por que o raycast falha bem na porta), qual porta (se houver) está a até `GAME.doorOpenRangeUnits` de distância, e só chama `onFacedDoorChange` quando esse valor **muda** (não every frame — mantém o React state update raro). `DoorOpenButton.tsx` (canto inferior direito) fica desabilitado até isso ser não-nulo; `Enter`/`E` no teclado faz o mesmo. Tocar direto na porta (`DoorMarker`) também funciona, como atalho.
 
-1. `tutorial` — `GameTutorialScreen`, dois passos em pixel art ("arraste pra olhar" / "toque na porta pra entrar"), avança automaticamente após `PANORAMA.tutorialMs` ou ao tocar em qualquer lugar da tela.
-2. `loading` — `GameLoadingScreen` com a barra de progresso pixel-art, puramente ilustrativa (não reflete carregamento real de asset nenhum — não há textura pra carregar).
-3. `ready` — `PanoramaViewer` fica interativo.
+## Motor (`useGameEngine.ts`)
 
-Ao adicionar uma nova etapa introdutória, estenda esse enum (`GamePhase` em `types/game.ts`) em vez de empilhar mais booleanos soltos.
+Mesmo esqueleto de loop de `ParticleField.tsx`: `requestAnimationFrame`, pausa em `visibilitychange`, delta clampado (`GAME.maxDelta`). Estado do jogador vive em `useRef`, nunca `useState`. Nunca fira o padrão de "congelar em vez de desmontar" — o motor continua rodando/renderizando até `GameOverlay` desmontar; a navegação real só acontece depois do flash (`DoorTransitionFlash`).
 
-## Motor (`usePanoramaEngine.ts`)
+## Input: teclado + D-pad + arrastar, tudo somado
 
-Loop `requestAnimationFrame` que lê o delta acumulado de `useDragLook` (mesmo hook, idêntico em mouse e touch) e as setas `ArrowLeft`/`ArrowRight`, escreve o yaw resultante direto no DOM (`backdropRef.style.transform` + `updateHotspotMarkers`) — **não** via `useState`, pra não re-renderizar a 60fps arrastando. Diferente do raycaster antigo, não há física/tempo-dependência real aqui (yaw só muda por input discreto), então o loop não precisa de clamp de delta nem pausa em `visibilitychange`.
+- **Andar** (frente/trás + strafe): `useKeyboardMoveState` (WASD/setas) — inalterado desde a versão original. No touch, o D-pad 8-bit (`DPad.tsx`, canto inferior esquerdo, só monta com `useIsTouchDevice()`) contribui só o eixo frente/trás (sem strafe) via `combineInput` (`lib/gameInput.ts`) — soma em vez de escolher por dispositivo, mesma lógica de sempre.
+- **Olhar** (`useDragLook`, idêntico mouse/touch): arrastar continua funcionando sempre. Os outros dois botões do D-pad **giram** a câmera (`dpadTurnRef`, radianos/segundo enquanto pressionado) — não fazem strafe.
+- **Sem giroscópio.** Foi tentado e removido — não reintroduza sem um pedido explícito do usuário.
 
-## Projeção dos hotspots (`lib/panoramaProjection.ts`)
+## Renderização
 
-`projectHotspot(yaw, hotspotYaw, fovDeg)` é matemática pura (sem DOM) — diferença angular normalizada pra `[-180,180]`, mapeada linearmente pro `PANORAMA.fovDeg` visível. Fora do FOV, o hotspot fica `opacity:0` **e** `pointer-events:none` (não só invisível — senão ele intercepta cliques destinados ao fundo). `DoorMarker` é um `<button>` real e navegável por Tab; ao ganhar foco, `PanoramaViewer` chama `focusHotspot` pra centralizar a câmera nele — é assim que teclado alcança uma porta que está fora do FOV atual sem precisar "arrastar" via teclado primeiro.
-
-## Cenário placeholder
-
-`PanoramaViewer`'s backdrop é uma textura CSS repetível (marca d'água do logo + estrelas via `radial-gradient`), **não** uma foto 360° real — ainda não existe uma. Quando houver, troque só o `backgroundImage`/`backgroundSize` do backdrop por uma foto equirretangular; a matemática de pan (`translateX(-(yaw/360)*100%)`) e a projeção dos hotspots não mudam.
+Resolução interna baixa (`GAME.renderWidth/renderHeight`, hoje 320×200) escalada via CSS com `image-rendering: pixelated`. Paredes normais usam a textura gerada em `lib/gameTextures.ts` (logo + frase de `WALL_PHRASES`, cicladas por posição no grid). **Portas não têm textura** — são uma cor coral lisa (`mixColor` por distância/lado, igual às paredes) — o visual "porta" de verdade é o `DoorMarker.tsx` (painel coral com ícone+rótulo+maçaneta) posicionado por cima via `lib/doorMarkers.ts::updateDoorMarkers`, ancorado no centro vertical da coluna de parede (que é sempre o horizonte, paredes são sempre simétricas ao redor dele). Área `comece`/"FAÇA PARTE" tem `showIcon: false` em `areas.ts` — `DoorMarker` e `BottomTabBar` respeitam essa flag pra mostrar só o texto.
 
 ## Integração com a gamificação existente
 
-Ao tocar numa porta, `GameSession` chama `useExploration().markVisited(areaId)` **imediatamente** (não espera o `IntersectionObserver` da página real) e só depois anima o flash (`DoorTransitionFlash`) e faz `scrollIntoView` pra seção. O contador de exploração existente (`ExplorationProvider`) continua sendo a fonte única de verdade também pro progresso feito dentro do modo panorama — não crie um contador separado.
+Ao abrir uma porta (por qualquer um dos três caminhos), `GameSession` chama `useExploration().markVisited(areaId)` **imediatamente** e só depois anima o flash e faz `scrollIntoView` pra seção. O contador de exploração existente (`ExplorationProvider`) é a fonte única de verdade — não crie um contador separado.

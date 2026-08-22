@@ -33,7 +33,7 @@ export function BottomTabBar() {
               isActive ? "text-move-yellow" : "text-move-gray-300",
             )}
           >
-            <Icon className="size-5" aria-hidden="true" />
+            {area.showIcon !== false && <Icon className="size-5" aria-hidden="true" />}
             {area.label}
           </a>
         );
