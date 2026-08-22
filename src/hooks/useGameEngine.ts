@@ -17,7 +17,7 @@ const FOG_COLOR = "#080808";
 const SKY_TOP_COLOR = "#050506";
 const SKY_HORIZON_COLOR = "#17141a";
 const GROUND_COLOR = "#0a0a0c";
-const DOOR_COLOR = "#ff4d5a";
+const DOOR_COLOR = "#fff800";
 
 // Static star field for the open-world night sky — computed once (not per
 // frame) since the positions never change.

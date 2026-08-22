@@ -14,9 +14,8 @@ export const areas: MoveArea[] = [
   {
     id: "comece",
     label: "FAÇA PARTE",
-    description: "Quero conhecer / falar com a gente",
+    description: "Quero participar",
     position: "top",
-    showIcon: false,
   },
   {
     id: "galeria",

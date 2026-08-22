@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 import { AREA_ICONS } from "@/lib/areaIcons";
 
 /**
- * A coral door standing in the raycast scene, with the section name
+ * A yellow door standing in the raycast scene, with the section name
  * painted on its face. Position and scale are driven imperatively every
  * frame by `updateDoorMarkers` (direct DOM style writes via `ref`, not
  * React state) since they change on every frame — the click handler and
@@ -27,7 +27,7 @@ export const DoorMarker = forwardRef<
       className="absolute opacity-0 outline-none"
       style={{ left: "50%", top: "50%" }}
     >
-      <div className="relative flex h-32 w-20 flex-col items-center justify-center gap-2 rounded-t-2xl border-2 border-move-black/50 bg-move-coral px-2 py-4 shadow-xl sm:h-40 sm:w-24">
+      <div className="relative flex h-32 w-20 flex-col items-center justify-center gap-2 rounded-t-2xl border-2 border-move-black/50 bg-move-yellow px-2 py-4 shadow-xl sm:h-40 sm:w-24">
         {showIcon && <Icon className="size-6 shrink-0 text-move-black" aria-hidden="true" />}
         <span className="text-center font-accent text-[11px] font-bold uppercase leading-tight tracking-wide text-move-black sm:text-xs">
           {label}
