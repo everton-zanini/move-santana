@@ -15,6 +15,7 @@ import { UnlockToast } from "@/components/gamification/UnlockToast";
 import { EasterEggHandler } from "@/components/gamification/EasterEggHandler";
 import { GameOverlay } from "@/components/game/GameOverlay";
 import { MusicToggleButton } from "@/components/audio/MusicToggleButton";
+import { BackgroundInertGate } from "@/components/navigation/BackgroundInertGate";
 import "./globals.css";
 
 const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton" });
@@ -64,15 +65,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 <ActiveSectionProvider>
                   <GameOverlayProvider>
                     <MusicPlayerProvider>
-                      <SkipToContent />
-                      <GrainOverlay />
-                      <CustomCursor />
-                      {children}
-                      <BottomTabBar />
-                      <UnlockToast />
-                      <EasterEggHandler />
+                      <BackgroundInertGate>
+                        <SkipToContent />
+                        <GrainOverlay />
+                        <CustomCursor />
+                        {children}
+                        <BottomTabBar />
+                        <UnlockToast />
+                        <EasterEggHandler />
+                        <MusicToggleButton />
+                      </BackgroundInertGate>
                       <GameOverlay />
-                      <MusicToggleButton />
                     </MusicPlayerProvider>
                   </GameOverlayProvider>
                 </ActiveSectionProvider>

@@ -9,7 +9,7 @@ import { fadeUp, staggerContainer } from "@/lib/motion-variants";
 
 export function Footer() {
   return (
-    <footer className="border-t border-move-gray-800">
+    <footer id="comece" className="scroll-mt-20 border-t border-move-gray-800">
       <Container className="py-16 sm:py-24">
         <m.div
           variants={staggerContainer}

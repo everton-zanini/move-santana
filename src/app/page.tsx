@@ -1,6 +1,5 @@
 import { HeroGate } from "@/components/navigation/HeroGate";
 import { MoveIdentitySection } from "@/components/sections/MoveIdentitySection";
-import { EventsSection } from "@/components/sections/EventsSection";
 import { GallerySection } from "@/components/sections/GallerySection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { ConnectSection } from "@/components/sections/ConnectSection";
@@ -11,7 +10,6 @@ export default function Home() {
     <main id="main" className="pb-16 md:pb-0">
       <HeroGate />
       <MoveIdentitySection />
-      <EventsSection />
       <GallerySection />
       <AboutSection />
       <ConnectSection />

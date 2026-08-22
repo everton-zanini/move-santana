@@ -36,7 +36,7 @@ export function AboutSection() {
                 <p className="font-accent text-xs uppercase tracking-widest text-move-gray-300">
                   Quando
                 </p>
-                <p className="text-move-white">Cultos de jovens quinzenais — confira a data certa em Eventos</p>
+                <p className="text-move-white">{site.church.schedule}</p>
               </div>
             </div>
             <div className="flex items-start gap-3">

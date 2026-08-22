@@ -12,7 +12,8 @@ export const site = {
     "Move Santana é a galera de jovens da Verbo da Vida Santana. Cultos, encontros, comunidade e propósito — chega junto.",
   church: {
     name: "Igreja Verbo da Vida Santana",
-    address: "Rua Exemplo, 123 — Santana, São Paulo - SP", // TODO: substituir pelo endereço real
+    address: "Rua Dr. Zuquim, 1228 — Santana, São Paulo - SP",
+    schedule: "Todo último sábado do mês, às 19h",
   },
   seo: {
     title: "Move Santana | Juventude Verbo da Vida Santana",

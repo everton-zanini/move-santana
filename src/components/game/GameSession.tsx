@@ -4,13 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useEscapeKey } from "@/hooks/useEscapeKey";
 import { useExploration } from "@/hooks/useExploration";
-import { useIsTouchDevice } from "@/hooks/useIsTouchDevice";
-import { useIsPortrait } from "@/hooks/useIsPortrait";
 import { PanoramaViewer } from "@/components/game/PanoramaViewer";
 import { GameHUD } from "@/components/game/GameHUD";
 import { GameTutorialScreen } from "@/components/game/GameTutorialScreen";
 import { GameLoadingScreen } from "@/components/game/GameLoadingScreen";
-import { RotateDevicePrompt } from "@/components/game/RotateDevicePrompt";
 import { DoorTransitionFlash } from "@/components/game/DoorTransitionFlash";
 import { PANORAMA } from "@/lib/constants";
 import type { GamePhase } from "@/types/game";
@@ -25,9 +22,6 @@ export function GameSession({ onClose }: { onClose: () => void }) {
   const { markVisited } = useExploration();
   const [phase, setPhase] = useState<GamePhase>("tutorial");
   const [pendingAreaId, setPendingAreaId] = useState<string | null>(null);
-
-  const isTouch = useIsTouchDevice();
-  const isPortrait = useIsPortrait();
 
   useBodyScrollLock(true);
   useEscapeKey(true, onClose);
@@ -60,7 +54,6 @@ export function GameSession({ onClose }: { onClose: () => void }) {
   }, [pendingAreaId, onClose]);
 
   const isReady = phase === "ready";
-  const showRotatePrompt = isReady && isTouch && isPortrait;
 
   return (
     <>
@@ -69,7 +62,6 @@ export function GameSession({ onClose }: { onClose: () => void }) {
       {pendingAreaId && <DoorTransitionFlash onComplete={handleFlashComplete} />}
       {phase === "tutorial" && <GameTutorialScreen onComplete={handleTutorialComplete} />}
       {phase === "loading" && <GameLoadingScreen />}
-      {showRotatePrompt && <RotateDevicePrompt />}
     </>
   );
 }

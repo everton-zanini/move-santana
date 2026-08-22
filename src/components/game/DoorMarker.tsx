@@ -4,11 +4,12 @@ import { forwardRef } from "react";
 import { AREA_ICONS } from "@/lib/areaIcons";
 
 /**
- * Icon + plain-text label for one panorama hotspot. Horizontal position and
- * visibility are driven imperatively every frame by the panorama engine
- * (direct DOM style writes via `ref`, not React state) since they change on
- * every drag frame — the click handler and content are static per door, so
- * only that `left`/`opacity` needs to bypass React.
+ * A coral door for one panorama hotspot, with the section name painted on
+ * its face. Horizontal position and visibility are driven imperatively
+ * every frame by the panorama engine (direct DOM style writes via `ref`,
+ * not React state) since they change on every drag frame — the click
+ * handler and content are static per door, so only `left`/`opacity` needs
+ * to bypass React.
  */
 export const DoorMarker = forwardRef<
   HTMLButtonElement,
@@ -22,15 +23,20 @@ export const DoorMarker = forwardRef<
       type="button"
       onClick={onSelect}
       onFocus={onFocus}
-      className="absolute top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 opacity-0 outline-none"
+      aria-label={`Ir para ${label}`}
+      className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 outline-none transition-transform hover:scale-105"
       style={{ left: "50%" }}
     >
-      <span className="flex size-12 items-center justify-center rounded-full bg-move-yellow text-move-black shadow-lg transition-transform hover:scale-105">
-        <Icon className="size-5" aria-hidden="true" />
-      </span>
-      <span className="whitespace-nowrap rounded-full bg-move-black/80 px-2.5 py-1 font-accent text-xs font-bold uppercase tracking-wide text-move-white">
-        {label}
-      </span>
+      <div className="relative flex h-32 w-20 flex-col items-center justify-center gap-2 rounded-t-2xl border-2 border-move-black/50 bg-move-coral px-2 py-4 shadow-xl sm:h-40 sm:w-24">
+        <Icon className="size-6 shrink-0 text-move-black" aria-hidden="true" />
+        <span className="text-center font-accent text-[11px] font-bold uppercase leading-tight tracking-wide text-move-black sm:text-xs">
+          {label}
+        </span>
+        <span
+          aria-hidden="true"
+          className="absolute right-2.5 top-1/2 size-2 -translate-y-1/2 rounded-full bg-move-black/50"
+        />
+      </div>
     </button>
   );
 });

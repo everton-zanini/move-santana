@@ -20,21 +20,16 @@ npm run start
 
 ## Como editar o conteúdo
 
-Todo o conteúdo editável fica em `src/data/`, separado dos componentes — não é necessário tocar em nenhum componente React para atualizar texto, eventos, fotos ou links.
+Todo o conteúdo editável fica em `src/data/`, separado dos componentes — não é necessário tocar em nenhum componente React para atualizar texto, fotos ou links.
 
 | O que trocar | Arquivo |
 | --- | --- |
-| Próximos eventos (data, hora, local, link) | `src/data/events.ts` |
 | Fotos da galeria | `src/data/gallery.ts` + arquivos em `public/gallery/` |
 | Instagram / WhatsApp / YouTube | `src/data/social.ts` |
-| Nome, tagline, endereço, textos de SEO | `src/data/site.ts` |
+| Nome, tagline, endereço, horário de culto, textos de SEO | `src/data/site.ts` |
 | Áreas do "mapa" de navegação | `src/data/areas.ts` |
 
-Vários campos nesses arquivos estão marcados com `// TODO: substituir` — são placeholders (endereço, número de WhatsApp, links de redes sociais) que precisam ser trocados pelos dados reais antes de publicar.
-
-### Adicionando um evento
-
-Edite `src/data/events.ts` e adicione um objeto ao array `events`. `date` sempre em ISO 8601 com fuso (`-03:00`). O card e o countdown da seção "Eventos" se atualizam automaticamente — o próximo evento (por data, ou o que tiver `featured: true`) alimenta a contagem regressiva.
+Vários campos nesses arquivos estão marcados com `// TODO: substituir` — são placeholders (número de WhatsApp, links de redes sociais) que precisam ser trocados pelos dados reais antes de publicar.
 
 ### Adicionando fotos na galeria
 
@@ -61,8 +56,7 @@ src/
   components/
     ui/           componentes de apresentação genéricos (Button, Badge, ...)
     navigation/   hero, mapa de exploração (hub), nav mobile
-    sections/     cada seção real da página (Move, Eventos, Galeria, Sobre, Conecte, Footer)
-    events/       card de evento, lista, countdown
+    sections/     cada seção real da página (Move, Galeria, Sobre, Conecte, Footer)
     gallery/      grid de galeria + lightbox
     social/       cards de redes sociais
     effects/      camada decorativa (partículas, cursor, parallax, grain) — sempre opcional/gated

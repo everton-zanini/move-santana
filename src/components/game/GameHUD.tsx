@@ -1,11 +1,22 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
 export function GameHUD({ onClose }: { onClose: () => void }) {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    // The background becomes `inert` the moment this overlay opens, which
+    // blurs whatever was focused (the launcher button) without moving focus
+    // anywhere — give keyboard users a real starting point inside it.
+    closeButtonRef.current?.focus();
+  }, []);
+
   return (
     <>
       <button
+        ref={closeButtonRef}
         type="button"
         onClick={onClose}
         aria-label="Fechar modo exploração"

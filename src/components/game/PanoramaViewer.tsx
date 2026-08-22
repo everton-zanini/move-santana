@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { panoramaHotspots } from "@/data/panoramaHotspots";
 import { usePanoramaEngine } from "@/hooks/usePanoramaEngine";
 import { DoorMarker } from "@/components/game/DoorMarker";
+import { GyroscopePermissionButton } from "@/components/game/GyroscopePermissionButton";
 
 /**
  * Look-around-and-tap exploration: drag (or Arrow keys) pans a placeholder
@@ -23,7 +24,8 @@ export function PanoramaViewer({
   const backdropRef = useRef<HTMLDivElement>(null);
   const markerElsRef = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  const { focusHotspot } = usePanoramaEngine(containerRef, backdropRef, markerElsRef, active);
+  const { focusHotspot, needsOrientationPermission, orientationPermission, requestOrientationPermission } =
+    usePanoramaEngine(containerRef, backdropRef, markerElsRef, active);
 
   return (
     <div ref={containerRef} className="absolute inset-0 touch-none overflow-hidden bg-move-black">
@@ -53,6 +55,10 @@ export function PanoramaViewer({
           onFocus={() => focusHotspot(hotspot.yawDeg)}
         />
       ))}
+
+      {active && needsOrientationPermission && orientationPermission === "idle" && (
+        <GyroscopePermissionButton onRequest={requestOrientationPermission} />
+      )}
     </div>
   );
 }

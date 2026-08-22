@@ -1,6 +1,6 @@
 import {
   Compass,
-  CalendarDays,
+  Rocket,
   Image as ImageIcon,
   Info,
   MessageCircle,
@@ -10,7 +10,7 @@ import {
 /** Shared area → icon mapping, used by BottomTabBar and the in-game door markers. */
 export const AREA_ICONS: Record<string, LucideIcon> = {
   move: Compass,
-  eventos: CalendarDays,
+  comece: Rocket,
   galeria: ImageIcon,
   sobre: Info,
   conecte: MessageCircle,

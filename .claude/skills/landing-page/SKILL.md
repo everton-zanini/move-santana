@@ -12,14 +12,14 @@ O site é **uma única página** (`/`). O "mapa de game" (`HubMap`/`MobileNavRai
 ## Como adicionar uma área nova, ponta a ponta
 
 1. Adicione a entrada em `src/data/areas.ts` (id, label, description, position no grid).
-2. Crie o componente da seção em `src/components/sections/NovaAreaSection.tsx`, com `<section id="mesmo-id-do-passo-1">`.
-3. Inclua a seção em `src/app/page.tsx`, na ordem desejada.
-4. Se a área tiver conteúdo editável (eventos, links, etc.), crie o tipo em `src/types/` e os dados em `src/data/`.
+2. Crie o componente da seção em `src/components/sections/NovaAreaSection.tsx`, com `<section id="mesmo-id-do-passo-1">` — ou, como a área "comece" faz, aponte o `id` para uma seção já existente (o `<footer id="comece">`) em vez de criar uma seção nova, se o destino já existir na página.
+3. Inclua a seção em `src/app/page.tsx`, na ordem desejada (pule este passo se reaproveitar uma seção existente, como no caso acima).
+4. Se a área tiver conteúdo editável (links, textos, etc.), crie o tipo em `src/types/` e os dados em `src/data/`.
 5. Nada mais precisa mudar — `HubMap`, `MobileNavRail`, `BottomTabBar` e o contador de exploração leem `areas.ts` dinamicamente.
 
 ## Ordem e propósito de cada seção
 
-Hero (gate) → Move (identidade + mapa de exploração) → Eventos (conversão principal: ir a um encontro) → Galeria (prova social/vibe) → Sobre (contexto institucional mínimo) → Conecte (canais) → Footer (CTA final + reforço institucional). Não mova "Eventos" para depois de "Galeria" — o objetivo nº1 de conversão é levar o jovem a um encontro real, então fica logo após a introdução.
+Hero (gate) → Move (identidade + mapa de exploração) → Galeria (prova social/vibe) → Sobre (contexto institucional mínimo, com dia/horário fixo do culto) → Conecte (canais) → Footer (CTA final "Comece" + reforço institucional). Não existe mais uma seção dedicada a "próximos eventos" — o culto é recorrente (todo último sábado do mês) e essa informação fixa mora no card "Quando" da seção Sobre; a área "comece" no mapa de navegação leva direto ao CTA final, não a uma seção de eventos.
 
 ## Tom de voz
 

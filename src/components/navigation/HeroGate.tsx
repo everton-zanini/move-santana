@@ -46,6 +46,13 @@ export function HeroGate() {
 
         <m.p
           variants={fadeUp}
+          className="font-accent text-lg font-bold uppercase tracking-[0.35em] text-move-coral sm:text-xl"
+        >
+          Santana
+        </m.p>
+
+        <m.p
+          variants={fadeUp}
           className="font-display text-3xl uppercase leading-[0.95] text-move-white sm:text-5xl md:text-6xl"
         >
           {site.tagline}

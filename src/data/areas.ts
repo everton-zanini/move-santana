@@ -12,9 +12,9 @@ export const areas: MoveArea[] = [
     position: "center",
   },
   {
-    id: "eventos",
-    label: "EVENTOS",
-    description: "Próximo encontro",
+    id: "comece",
+    label: "COMECE",
+    description: "Quero conhecer / falar com a gente",
     position: "top",
   },
   {
