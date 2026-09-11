@@ -1,19 +1,9 @@
-import { HeroGate } from "@/components/navigation/HeroGate";
-import { MoveIdentitySection } from "@/components/sections/MoveIdentitySection";
-import { GallerySection } from "@/components/sections/GallerySection";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { ConnectSection } from "@/components/sections/ConnectSection";
-import { Footer } from "@/components/sections/Footer";
+import { LaunchCountdown } from "@/components/sections/LaunchCountdown";
 
 export default function Home() {
   return (
-    <main id="main" className="pb-16 md:pb-0">
-      <HeroGate />
-      <MoveIdentitySection />
-      <GallerySection />
-      <AboutSection />
-      <ConnectSection />
-      <Footer />
+    <main id="main" className="flex min-h-dvh items-center justify-center bg-move-black px-4">
+      <LaunchCountdown />
     </main>
   );
 }
