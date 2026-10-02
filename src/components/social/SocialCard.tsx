@@ -1,9 +1,9 @@
-import { Camera, MessageCircle, PlaySquare, ArrowUpRight, type LucideIcon } from "lucide-react";
+import { Camera, MessageCircle, PlaySquare, Send, ArrowUpRight, type LucideIcon } from "lucide-react";
 import type { SocialLink } from "@/types/social";
 
 const ICONS: Record<SocialLink["platform"], LucideIcon> = {
   instagram: Camera,
-  whatsapp: MessageCircle,
+  telegram: Send,
   youtube: PlaySquare,
   tiktok: MessageCircle,
 };

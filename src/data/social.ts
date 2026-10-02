@@ -1,7 +1,7 @@
 import type { SocialLink } from "@/types/social";
 
 // TODO: substitua pelos links reais. Este é o único lugar que precisa mudar
-// para atualizar Instagram/WhatsApp/YouTube em todo o site.
+// para atualizar Instagram/Telegram/YouTube em todo o site.
 export const socialLinks: SocialLink[] = [
   {
     id: "instagram",
@@ -12,12 +12,12 @@ export const socialLinks: SocialLink[] = [
     handle: "@movesantana",
   },
   {
-    id: "whatsapp",
-    platform: "whatsapp",
-    label: "WhatsApp",
-    description: "Entra no grupo e fica por dentro de tudo.",
-    href: "https://wa.me/5511999999999", // TODO: substituir pelo número real
-    handle: "Grupo do Move",
+    id: "telegram",
+    platform: "telegram",
+    label: "Telegram",
+    description: "Fala com o bot do Move e fica por dentro de tudo.",
+    href: "https://t.me/move_santana_bot?start=boasvindas",
+    handle: "@move_santana_bot",
   },
   {
     id: "youtube",
