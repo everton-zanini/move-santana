@@ -16,15 +16,15 @@ export const socialLinks: SocialLink[] = [
     platform: "telegram",
     label: "Telegram",
     description: "Fala com o bot do Move e fica por dentro de tudo.",
-    href: "https://t.me/move_santana_bot?start=boasvindas",
-    handle: "@move_santana_bot",
+    href: "https://t.me/MoveSantana_bot?start=boasvindas",
+    handle: "@MoveSantana_bot",
   },
   {
     id: "youtube",
     platform: "youtube",
     label: "YouTube",
     description: "Assiste os cultos e os melhores momentos.",
-    href: "https://youtube.com/@movesantana", // TODO: substituir
-    handle: "Move Santana",
+    href: "https://youtube.com/@Igrejaverbodavidasantana",
+    handle: "@Igrejaverbodavidasantana",
   },
 ];
