@@ -10,6 +10,11 @@ import { MusicPlayerProvider } from "@/providers/MusicPlayerProvider";
 import { SkipToContent } from "@/components/navigation/SkipToContent";
 import { GrainOverlay } from "@/components/effects/GrainOverlay";
 import { CustomCursor } from "@/components/effects/CustomCursor";
+import { BottomTabBar } from "@/components/navigation/BottomTabBar";
+import { UnlockToast } from "@/components/gamification/UnlockToast";
+import { EasterEggHandler } from "@/components/gamification/EasterEggHandler";
+import { GameOverlay } from "@/components/game/GameOverlay";
+import { MusicToggleButton } from "@/components/audio/MusicToggleButton";
 import { BackgroundInertGate } from "@/components/navigation/BackgroundInertGate";
 import "./globals.css";
 
@@ -65,7 +70,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                         <GrainOverlay />
                         <CustomCursor />
                         {children}
+                        <BottomTabBar />
+                        <UnlockToast />
+                        <EasterEggHandler />
+                        <MusicToggleButton />
                       </BackgroundInertGate>
+                      <GameOverlay />
                     </MusicPlayerProvider>
                   </GameOverlayProvider>
                 </ActiveSectionProvider>
