@@ -3,13 +3,13 @@
 :root {
   --move-yellow: #fff800;
   --move-coral: #ff4d5a;
-  --move-black: #080808;
-  --move-ink: #0f0f10;
+  --move-black: #000000;
+  --move-ink: #14161a;
   --move-white: #ffffff;
   --move-gray-300: #b8b8bc;
   --move-gray-500: #7a7a80;
-  --move-gray-700: #3a3a3f;
-  --move-gray-800: #202023;
+  --move-gray-700: #3d4148;
+  --move-gray-800: #2f3238;
 }
 
 @theme inline {
@@ -22,6 +22,7 @@
   --color-move-gray-500: var(--move-gray-500);
   --color-move-gray-700: var(--move-gray-700);
   --color-move-gray-800: var(--move-gray-800);
+  --color-move-slate: var(--move-gray-800);
 
   --font-display: var(--font-anton), "Arial Narrow", sans-serif;
   --font-accent: var(--font-chakra-petch), "Segoe UI", sans-serif;

@@ -35,12 +35,12 @@ export function HeroGate() {
       >
         <m.div variants={fadeUp}>
           <Image
-            src="/logos/move-wordmark-yellow.png"
+            src="/logos/move-graffiti-white.png"
             alt="Move Santana"
-            width={340}
-            height={95}
+            width={468}
+            height={119}
             priority
-            className="h-auto w-[min(85vw,420px)]"
+            className="h-auto w-[min(85vw,460px)] drop-shadow-[0_0_28px_rgba(255,248,0,0.25)]"
           />
         </m.div>
 

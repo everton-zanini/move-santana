@@ -13,7 +13,7 @@ import { useDragLook } from "@/hooks/useDragLook";
 import type { GameAssets } from "@/hooks/useGameAssets";
 import { CELL, type PlayerState, type RaycastHit } from "@/types/game";
 
-const FOG_COLOR = "#080808";
+const FOG_COLOR = "#000000";
 const SKY_TOP_COLOR = "#050506";
 const SKY_HORIZON_COLOR = "#17141a";
 const GROUND_COLOR = "#0a0a0c";

@@ -8,8 +8,8 @@ export const socialLinks: SocialLink[] = [
     platform: "instagram",
     label: "Instagram",
     description: "Bastidores, stories e os próximos eventos em primeira mão.",
-    href: "https://instagram.com/movesantana", // TODO: substituir
-    handle: "@movesantana",
+    href: "https://instagram.com/move.santana",
+    handle: "@move.santana",
   },
   {
     id: "telegram",

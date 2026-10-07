@@ -27,7 +27,7 @@ export function createWallTexture(logo: HTMLImageElement | null, phrase: string)
     ctx.globalAlpha = 1;
   }
 
-  ctx.fillStyle = "#080808";
+  ctx.fillStyle = "#000000";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.font = "700 14px sans-serif";
